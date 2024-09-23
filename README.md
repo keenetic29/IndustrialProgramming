@@ -2,8 +2,8 @@
 # Схема базы данных
 ![Untitled](https://github.com/user-attachments/assets/2ec083a3-5912-4576-87b4-4fb483c8dcdf)
 Описание таблиц:
-1. account - аккаунты 
-2. accessLevel - уровень доступа у аккаунтов
+1. account - аккаунт 
+2. accessLevel - уровень доступа у аккаунта
 3. supplier - поставщик 
 4. manufacturer - производитель
 5. product - продукт
