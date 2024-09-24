@@ -15,6 +15,6 @@
 11. review - отзыв
 12. cart - корзина
 13. order - заказ
-14. delivery - магазин
+14. delivery - доставка
 
 
