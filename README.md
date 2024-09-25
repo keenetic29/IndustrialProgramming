@@ -1,6 +1,6 @@
 # Выполнил студент группы ЭФМО-01-24 Андреев Александр
 # Схема базы данных
-![Untitled](https://github.com/user-attachments/assets/2ec083a3-5912-4576-87b4-4fb483c8dcdf)
+![Industrial -Practice1 (1)](https://github.com/user-attachments/assets/35af116a-e57b-4436-b5f2-3b832a895cbd)
 Описание таблиц:
 1. account - аккаунт 
 2. accessLevel - уровень доступа у аккаунта
@@ -15,6 +15,7 @@
 11. review - отзыв
 12. cart - корзина
 13. order - заказ
-14. delivery - доставка
+14. orderStatus - статус заказа
+15. delivery - доставка
 
 
