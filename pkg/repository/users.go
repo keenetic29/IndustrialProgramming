@@ -1,30 +1,22 @@
 package repository
 
 import (
-	"errors"
-
-	"rest.com/pkg/auth"
+	"rest.com/pkg/db"
 	"rest.com/pkg/model"
 )
 
-var users = []model.User {
-	{ID: 1, Name: "user1", Password: "12345", AccessLevel: "User"},
-	{ID: 2, Name: "admin1", Password: "12345", AccessLevel: "Admin"},
-}
-
-
 func GetUserByLogin(login string) (model.User, error) {
-	for _, user := range users {
-		if user.Name == login {
-			return user, nil
-		}
-	}
-	return model.User{}, errors.New("user not found")
-}
-func GetAllUsers() []model.User {
-	return users
+	var user model.User
+	err := db.DB.Where("username = ?", login).First(&user).Error
+	return user, err
 }
 
-func AddUser(login string, password string) {
-	users = append(users, model.User{ID: len(users) + 1, Name: login, Password: password, AccessLevel: auth.USER_ROLE})
+func GetAllUsers() ([]model.User, error) {
+	var users []model.User
+	err := db.DB.Find(&users).Error
+	return users, err
+}
+
+func AddUser(login string, password string) error {
+	return db.DB.Create(&model.User{Username: login, Password: password}).Error
 }

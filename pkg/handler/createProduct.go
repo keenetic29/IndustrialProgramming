@@ -14,10 +14,20 @@ func CreateProduct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
+	
 	// Автоматическая генерация ID
-	newProduct.ID = len(*repository.GetProducts()) + 1
-	*repository.GetProducts() = append(*repository.GetProducts(), newProduct)
+	var maxProductID int = 0
+	products, _ := repository.GetProducts()
+	for _, product := range products {
+		if product.ID > maxProductID {
+			maxProductID = product.ID
+		}
+	}
+	newProduct.ID = maxProductID + 1
 
+	if err := repository.AddProducts([]model.Product{newProduct}); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
 	c.JSON(http.StatusCreated, newProduct)
 }

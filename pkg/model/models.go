@@ -1,7 +1,7 @@
 package model
 
 type Product struct {
-	ID          	int     `json:"id"`
+	ID          	int    	`gorm:"primaryKey"`
 	Name        	string  `json:"name"`
 	Description 	string  `json:"description"`
 	Cost       		float64 `json:"cost"`
@@ -11,8 +11,8 @@ type Product struct {
 }
 
 type User struct {
-	ID int `json:"id"`
-	Name string `json:"name"`
-	Password string `json:"password"`
-	AccessLevel string `json:"role"`
+	ID 			int 	`gorm:"primaryKey"`
+	Username 	string 	`json:"username"`
+	Password 	string 	`json:"password"`
+	AccessLevel string 	`gorm:"default:'User'"`
 }

@@ -21,7 +21,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	if creds.Username != user.Name || creds.Password != user.Password {
+	if creds.Username != user.Username || creds.Password != user.Password {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
 		return
 	}
