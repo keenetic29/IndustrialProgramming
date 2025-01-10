@@ -27,6 +27,7 @@ func InitDB() {
 }
 
 func insertTestData() {
+	DB.Exec("TRUNCATE products, users")
 	DB.Create(initProducts)
 	DB.Create(initUsers)
 }

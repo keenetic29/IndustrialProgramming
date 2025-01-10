@@ -7,9 +7,25 @@ import (
 
 
 
-func GetProducts() ([]model.Product, error) {
+func GetAllProducts() ([]model.Product, error) {
 	var products []model.Product
 	err := db.DB.Find(&products).Error
+	return products, err
+}
+
+func GetProducts(limit int, page int, searchString string, sort string) ([]model.Product, error) {
+	var products []model.Product
+
+	offset := (page - 1) * limit
+	query := db.DB.Limit(limit).Offset(offset)
+	if searchString != "" {
+		query = query.Where("name ILIKE ?", "%"+searchString+"%")
+	}
+	if sort != "" {
+		query = query.Order(sort + " DESC")
+	}
+
+	err := query.Find(&products).Error
 	return products, err
 }
 

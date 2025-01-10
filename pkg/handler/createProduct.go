@@ -17,7 +17,7 @@ func CreateProduct(c *gin.Context) {
 	
 	// Автоматическая генерация ID
 	var maxProductID int = 0
-	products, _ := repository.GetProducts()
+	products, _ := repository.GetAllProducts()
 	for _, product := range products {
 		if product.ID > maxProductID {
 			maxProductID = product.ID
