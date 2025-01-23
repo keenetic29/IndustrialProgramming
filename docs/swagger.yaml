@@ -1,0 +1,487 @@
+basePath: /
+definitions:
+  pkg_handler_products.ReqProduct:
+    properties:
+      cost:
+        type: number
+      count:
+        type: integer
+      description:
+        type: string
+      manufacturerId:
+        type: integer
+      name:
+        type: string
+      supplierId:
+        type: integer
+    type: object
+  rest_com_pkg_auth.Credentials:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  rest_com_pkg_model.Product:
+    properties:
+      cost:
+        type: number
+      count:
+        type: integer
+      description:
+        type: string
+      id:
+        type: integer
+      manufacturerId:
+        type: integer
+      name:
+        type: string
+      supplierId:
+        type: integer
+    type: object
+  rest_com_pkg_tasks.Task:
+    properties:
+      filename:
+        type: string
+      id:
+        type: string
+      status:
+        description: pending, in_progress, done, error
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is tutorial project on creating rest api.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and returns a JWT token
+      parameters:
+      - description: User credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/rest_com_pkg_auth.Credentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JWT token
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid request body
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: User not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Failed to generate token
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: User login
+      tags:
+      - authentication
+  /products:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a list of products with optional filters and pagination
+      parameters:
+      - description: 'Page number (default: 1)'
+        in: query
+        name: page
+        type: integer
+      - description: 'Number of products per page (default: 10)'
+        in: query
+        name: limit
+        type: integer
+      - description: Filter by product name
+        in: query
+        name: name
+        type: string
+      - description: Sort column
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/rest_com_pkg_model.Product'
+            type: array
+        "400":
+          description: Invalid request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Get products with filters
+      tags:
+      - products
+    post:
+      consumes:
+      - application/json
+      description: Creating product
+      parameters:
+      - description: Add product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/pkg_handler_products.ReqProduct'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/rest_com_pkg_model.Product'
+        "400":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Create a product
+      tags:
+      - products
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing product in the repository
+      parameters:
+      - description: Updated product data
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/rest_com_pkg_model.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product updated successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid request or update failed
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Update a product
+      tags:
+      - products
+  /products/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Deletes a product from the repository by its ID. Requires authentication.
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Product deleted successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Failed to delete product
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "403":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Product not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Delete a product
+      tags:
+      - products
+    get:
+      consumes:
+      - application/json
+      description: Retrieves a product from the repository by its ID
+      parameters:
+      - description: Product ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/rest_com_pkg_model.Product'
+        "401":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Product not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Get product by ID
+      tags:
+      - products
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user account if the username is available
+      parameters:
+      - description: User credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/rest_com_pkg_auth.Credentials'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Account created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: User already exists or input error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a new user
+      tags:
+      - authentication
+  /tasks:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new task and starts its execution asynchronously
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Task created successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Failed to create task
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Create a new task
+      tags:
+      - tasks
+  /tasks/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Stops a running task by its ID
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Task stopped successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Failed to stop the task
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Task does not exist
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Cancel a task
+      tags:
+      - tasks
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the details of a specific task by its ID
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Task details
+          schema:
+            $ref: '#/definitions/rest_com_pkg_tasks.Task'
+        "401":
+          description: Invalid request or error message
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: Task not found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Get task by ID
+      tags:
+      - tasks
+securityDefinitions:
+  JWT:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

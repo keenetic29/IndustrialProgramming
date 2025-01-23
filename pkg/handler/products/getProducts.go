@@ -9,7 +9,22 @@ import (
 	"rest.com/pkg/repository"
 )
 
-// Получение всех продуктов
+// GetProducts godoc
+// @Summary      Get products with filters
+// @Description  Retrieves a list of products with optional filters and pagination
+// @Tags         products
+// @Accept       json
+// @Produce      json
+// @Security JWT
+// @Param        page   query     int     false  "Page number (default: 1)"
+// @Param        limit  query     int     false  "Number of products per page (default: 10)"
+// @Param        name   query     string  false  "Filter by product name"
+// @Param        sort   query     string  false  "Sort column"
+// @Success      200    {array}   model.Product
+// @Failure      400    {object}  map[string]string  "Invalid request"
+// @Failure      401  {object}  map[string]string  "Invalid request or error message"
+// @Failure      500    {object}  map[string]string  "Internal server error"
+// @Router       /products [get]
 func GetProducts(c *gin.Context) {
 	var products []model.Product
 	page := c.DefaultQuery("page", "1")

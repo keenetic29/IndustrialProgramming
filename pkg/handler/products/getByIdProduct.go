@@ -8,7 +8,18 @@ import (
 	"rest.com/pkg/repository"
 )
 
-// Получение продукта по ID
+// GetProductsById godoc
+// @Summary      Get product by ID
+// @Description  Retrieves a product from the repository by its ID
+// @Tags         products
+// @Accept       json
+// @Produce      json
+// @Security JWT
+// @Param        id   path      string  true  "Product ID"
+// @Success      200  {object}  model.Product
+// @Failure      404  {object}  map[string]string  "Product not found"
+// @Failure      401  {object}  map[string]string  "Invalid request or error message"
+// @Router       /products/{id} [get]
 func GetProductByID(c *gin.Context) {
 	id := c.Param("id")
 

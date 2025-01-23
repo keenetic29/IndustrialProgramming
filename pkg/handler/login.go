@@ -8,6 +8,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Login godoc
+// @Summary      User login
+// @Description  Authenticates a user and returns a JWT token
+// @Tags         authentication
+// @Accept       json
+// @Produce      json
+// @Param        credentials  body      auth.Credentials  true  "User credentials"
+// @Success      200  {object}  map[string]string  "JWT token"
+// @Failure      400  {object}  map[string]string  "Invalid request body"
+// @Failure      401  {object}  map[string]string  "Unauthorized"
+// @Failure      404  {object}  map[string]string  "User not found"
+// @Failure      500  {object}  map[string]string  "Failed to generate token"
+// @Router       /login [post]
 func Login(c *gin.Context) {
 	var creds auth.Credentials
 	if err := c.BindJSON(&creds); err != nil {

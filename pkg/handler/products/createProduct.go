@@ -8,6 +8,30 @@ import (
 	"rest.com/pkg/repository"
 )
 
+
+type ReqProduct struct {
+	Name        	string  `json:"name"`
+	Description 	string  `json:"description"`
+	Cost       		float64 `json:"cost"`
+	Count			int     `json:"count"`
+	ManufacturerId 	int 	`json:"manufacturerId"`
+	SupplierId		int 	`json:"supplierId"`
+}
+
+
+// CreateProduct godoc
+// @Summary      Create a product
+// @Description  Creating product
+// @Tags         products
+// @Accept       json
+// @Produce      json
+// @Security JWT
+// @Param        product body   ReqProduct  true  "Add product"
+// @Success      201  {object}  model.Product
+// @Failure      400  {object}  map[string]string  "Invalid request or error message"
+// @Failure      401  {object}  map[string]string  "Invalid request or error message"
+// @Failure      403  {object}  map[string]string  "Invalid request or error message"
+// @Router       /products [post]
 func CreateProduct(c *gin.Context) {
 	var newProduct model.Product
 	if err := c.ShouldBindJSON(&newProduct); err != nil {
